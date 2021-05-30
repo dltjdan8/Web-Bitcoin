@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 커넥션 풀링 이 설정이 완료되야 루트 컨텍스트 설정으로 간다. -->
+<Context>
+	<Resource name="jdbc/coin" auth="Container"
+		type="javax.sql.DataSource" maxTotal="100" maxIdle="30"
+		maxWaitMillis="10000" username="coin" password="coin"
+		driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/coin_db?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8" />
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
