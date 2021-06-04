@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.coin.mapper.UserMapper">
+	<select id="getUser" resultType="UserDto">
+		SELECT * FROM user where rid =
+		#{username}
+	</select>
+	<select id="validate" resultType="int">
+		SELECT count(*) FROM user where
+		rid = #{userId}
+	</select>
+	<insert id="regist" parameterType="UserDto">
+		insert into user(rid, rpwd, name, gender, nickname, birthday, postalCode, roadAddress, detailAddress, email, authority)
+		values(#{id},#{pwd},#{name},#{gender},#{nickname},#{birthday},#{postalCode},#{roadAddress}, #{detailAddress},#{email},#{authority});
+	</insert>
+</mapper>
