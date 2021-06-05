@@ -24,7 +24,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String url = "/";
 		while (authList_it.hasNext()) {
 			GrantedAuthority auth = authList_it.next();
-			if ("ROLE_ADMIN".equals(auth.getAuthority())) {
+			if ("ROLE_USER".equals(auth.getAuthority())) {
 				url = "/";
 			}
 		}

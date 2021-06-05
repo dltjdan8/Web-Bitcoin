@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int regist(UserDto userDto) {
 		// TODO Auto-generated method stub
+		userDto.setAuthority("ROLE_USER");
 		return session.getMapper(UserMapper.class).regist(userDto);
 	}
 
