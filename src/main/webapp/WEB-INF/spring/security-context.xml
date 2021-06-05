@@ -11,7 +11,7 @@
 		class="com.bit.coin.service.CustomUserDetailsService"></bean>
 	<bean id="loginSuccessHandler"
 		class="com.bit.coin.security.LoginSuccessHandler"></bean>
-
+	<security:http pattern="/user/*" security="none" />
 	<security:http>
 		<!-- <security:access-denied-handler ref=""/> -->
 		<security:intercept-url pattern="/user/*"

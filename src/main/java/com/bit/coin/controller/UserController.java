@@ -37,6 +37,7 @@ public class UserController {
 	@ResponseBody
 	@PostMapping("/validate")
 	public String validate(@RequestBody String userId) {
+		System.out.println("validate");
 		int result = userService.validate(userId);
 		if (result == 1) {
 			return "no";

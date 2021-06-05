@@ -23,7 +23,222 @@
 <!-- 다음 우편번호 검색 -->
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+
+</head>
+<body>
+	<!-- Grey with black text -->
+	<nav class="navbar navbar-expand-sm bg-light navbar-light">
+		<!-- Brand/logo -->
+		<img alt="logo" src="${path}/img/logo.png" href="${path}/" width="50"
+			height="50"> <a class="navbar-brand" href="${path}/">BitCoin</a>
+		<sec:authorize access="isAnonymous()">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="#"
+					data-toggle="modal" data-target="#loginModal">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"
+					data-toggle="modal" data-target="#registModal">회원가입</a></li>
+			</ul>
+		</sec:authorize>
+
+		<sec:authorize access="isAuthenticated()">
+			<form id="logoutForm" action="/user/logout" method="post">
+				<sec:csrfInput />
+			</form>
+			<span id="logoutBtn" class="top-bar-menu-item"
+				style="cursor: pointer;">로그아웃</span>
+			<span class="top-bar-menu-item"><a href="/user/myPage">내정보</a></span>
+			<script>
+				$("#logoutBtn").on("click", function() {
+					$("#logoutForm").submit();
+				});
+			</script>
+		</sec:authorize>
+	</nav>
+
+	<!-- The Modal -->
+	<div class="modal" id="loginModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">로그인</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="id">User ID:</label> <input type="text"
+							class="form-control" placeholder="Enter ID" id="id">
+					</div>
+					<div class="form-group">
+						<label for="pwd">Password:</label> <input type="password"
+							class="form-control" placeholder="Enter password" id="pwd">
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary" data-dismiss="modal">로그인</button>
+					<button type="reset" class="btn btn-danger" data-dismiss="modal">초기화</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="registModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">회원가입</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="panel-body" style="margin-top: 20px;">
+						<form id="registerForm" action="/user/regist" method="post">
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊아이디</div>
+								<div class="col-sm-12">
+									<input id="rid" name="rid" type="text" class="form-control"
+										placeholder="아이디" autofocus autocomplete="off">
+									<button id="reduplicationCheck" class="btn" type="button"
+										style="color: green; font-size: 13px">중복체크</button>
+								</div>
+								<div class="col-sm-12" id="idComment"></div>
+							</div>
+
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊비밀번호</div>
+								<div class="col-sm-12">
+									<input id="rpwd" name="rpwd" type="password"
+										class="form-control" placeholder="비밀번호" autocomplete="off">
+									<div id="pwdComment" style="color: red"></div>
+								</div>
+							</div>
+
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊비밀번호 재입력</div>
+								<div class="col-sm-12">
+									<input id="rePwd" type="password" class="form-control"
+										placeholder="비밀번호" autocomplete="off">
+									<div id="rePwdComment" style="color: red"></div>
+								</div>
+							</div>
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊이름</div>
+								<div class="col-sm-12">
+									<input id="name" name="name" type="text" class="form-control"
+										placeholder="이름" autocomplete="new-password">
+									<div id="nameComment"></div>
+								</div>
+							</div>
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊닉네임</div>
+								<div class="col-sm-12">
+									<input id="nickname" name="nickname" type="text"
+										class="form-control" placeholder="닉네임" autocomplete="off">
+									<div id="nicknameComment"></div>
+								</div>
+							</div>
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊생년월일</div>
+								<input id="birthday" type="hidden" name="birthday">
+								<div class="col-sm-12"
+									style="padding-left: 15px; padding-right: 15px; margin: 0 auto;">
+									<div align="center"
+										style="height: 45px; font-family: 'Nunito Sans', sans-serif">
+										<input id="year" name="year" maxlength="4" type="text"
+											placeholder="년" autocomplete="off" style="width: 32%">
+										<select aria-label="월" id="month"
+											style="width: 32%; height: 30px;">
+											<option value="">월</option>
+											<option value="01">1월</option>
+											<option value="02">2월</option>
+											<option value="03">3월</option>
+											<option value="04">4월</option>
+											<option value="05">5월</option>
+											<option value="06">6월</option>
+											<option value="07">7월</option>
+											<option value="08">8월</option>
+											<option value="09">9월</option>
+											<option value="10">10월</option>
+											<option value="11">11월</option>
+											<option value="12">12월</option>
+										</select> <input id="date" name="date" maxlength="2" type="text"
+											placeholder="일" autocomplete="off" style="width: 32%">
+									</div>
+									<div id="birthdayComment" class="col-sm-12"></div>
+								</div>
+							</div>
+
+
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊성별</div>
+								<div class="col-sm-12">
+									<div class="radio custom-control">
+										<label><input name="gender" type="radio" checked
+											value="man">남성</label>
+									</div>
+									<div class="radio custom-control">
+										<label><input name="gender" type="radio" value="woman">여성</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group" align="left">
+								<div class="col-sm-12">＊이메일</div>
+								<div class="col-sm-12">
+									<input id="email" name="email" type="email"
+										class="form-control" placeholder="이메일" autocomplete="off">
+									<div id="emailComment"></div>
+								</div>
+							</div>
+
+							<div class="form-group" align="left">
+								<div class="col-sm-12">기본 배송지</div>
+								<div class="col-sm-12">
+									<div style="margin-top: 10px; margin-bottom: 10px">
+										<input type="text" id="postalCode" name="postalCode"
+											class="form-control" placeholder="우편번호"
+											style="width: 50%; display: inline;" readonly="readonly">
+										<input type="button" class="form-control"
+											onclick="startDaumPostcode()" value="우편번호 검색"
+											style="width: 45%; display: inline; float: right;">
+									</div>
+									<input type="text" id="roadAddress" name="roadAddress"
+										class="form-control" placeholder="도로명주소" readonly="readonly"
+										style="margin-bottom: 10px"> <input type="text"
+										id="detailAddress" name="detailAddress" class="form-control"
+										placeholder="상세주소" autocomplete="new-password">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-12">
+									<input id="registerBtn" type="submit" value="회원가입"
+										style="border: hidden; margin-top: 20px; font-size: 18px; height: 54px; width: 100%; background-color: green; color: white;">
+								</div>
+							</div>
+							<sec:csrfInput />
+						</form>
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<script>
 	function startDaumPostcode() {
 		new daum.Postcode({
 		oncomplete: function(data) {
@@ -142,11 +357,7 @@
 	// db로 부터 ajax통신으로 아이디 중복체크 결과를 받아온다.
 	// 성공시 idCheck를 1로 변경
 	$("#reduplicationCheck").on("click", function(e) {
-		console.log("click");
-		e.stopPropagation();
-		console.log("click2");
 		e.preventDefault();
-		console.log("click3");
 		let idVal = $("#rid").val().trim();
 		if(!idVal){
 			$("#idComment").attr("style","color : red; font-size:13px;");
@@ -279,218 +490,5 @@
 	});
 	
 </script>
-</head>
-<body>
-	<!-- Grey with black text -->
-	<nav class="navbar navbar-expand-sm bg-light navbar-light">
-		<!-- Brand/logo -->
-		<img alt="logo" src="${path}/img/logo.png" href="${path}/" width="50"
-			height="50"> <a class="navbar-brand" href="${path}/">BitCoin</a>
-		<sec:authorize access="isAnonymous()">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="#"
-					data-toggle="modal" data-target="#loginModal">로그인</a></li>
-				<li class="nav-item"><a class="nav-link" href="#"
-					data-toggle="modal" data-target="#registModal">회원가입</a></li>
-			</ul>
-		</sec:authorize>
-
-		<sec:authorize access="isAuthenticated()">
-			<form id="logoutForm" action="/user/logout" method="post">
-				<sec:csrfInput />
-			</form>
-			<span id="logoutBtn" class="top-bar-menu-item"
-				style="cursor: pointer;">로그아웃</span>
-			<span class="top-bar-menu-item"><a href="/user/myPage">내정보</a></span>
-			<script>
-				$("#logoutBtn").on("click", function() {
-					$("#logoutForm").submit();
-				});
-			</script>
-		</sec:authorize>
-	</nav>
-
-	<!-- The Modal -->
-	<div class="modal" id="loginModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">로그인</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="id">User ID:</label> <input type="text"
-							class="form-control" placeholder="Enter ID" id="id">
-					</div>
-					<div class="form-group">
-						<label for="pwd">Password:</label> <input type="password"
-							class="form-control" placeholder="Enter password" id="pwd">
-					</div>
-				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" data-dismiss="modal">로그인</button>
-					<button type="reset" class="btn btn-danger" data-dismiss="modal">초기화</button>
-				</div>
-
-			</div>
-		</div>
-	</div>
-	<div class="modal" id="registModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">회원가입</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="panel-body" style="margin-top: 20px;">
-						<form id="registerForm" action="/user/regist" method="post">
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊아이디</div>
-								<div class="col-sm-12">
-									<input id="rid" name="rid" type="text" class="form-control"
-										placeholder="아이디" autofocus autocomplete="off">
-									<button id="reduplicationCheck" class="btn"
-										style="color: green; font-size: 13px">중복체크</button>
-								</div>
-								<div class="col-sm-12" id="idComment"></div>
-							</div>
-
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊비밀번호</div>
-								<div class="col-sm-12">
-									<input id="rpwd" name="rpwd" type="password"
-										class="form-control" placeholder="비밀번호" autocomplete="off">
-									<div id="pwdComment" style="color: red"></div>
-								</div>
-							</div>
-
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊비밀번호 재입력</div>
-								<div class="col-sm-12">
-									<input id="rePwd" type="password" class="form-control"
-										placeholder="비밀번호" autocomplete="off">
-									<div id="rePwdComment" style="color: red"></div>
-								</div>
-							</div>
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊이름</div>
-								<div class="col-sm-12">
-									<input id="name" name="name" type="text" class="form-control"
-										placeholder="이름" autocomplete="new-password">
-									<div id="nameComment"></div>
-								</div>
-							</div>
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊닉네임</div>
-								<div class="col-sm-12">
-									<input id="nickname" name="nickname" type="text"
-										class="form-control" placeholder="닉네임" autocomplete="off">
-									<div id="nicknameComment"></div>
-								</div>
-							</div>
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊생년월일</div>
-								<input id="birthday" type="hidden" name="birthday">
-								<div class="col-sm-12"
-									style="padding-left: 15px; padding-right: 15px; margin: 0 auto;">
-									<div align="center"
-										style="height: 45px; font-family: 'Nunito Sans', sans-serif">
-										<input id="year" name="year" maxlength="4" type="text"
-											placeholder="년" autocomplete="off" style="width: 32%">
-										<select aria-label="월" id="month"
-											style="width: 32%; height: 30px;">
-											<option value="">월</option>
-											<option value="01">1월</option>
-											<option value="02">2월</option>
-											<option value="03">3월</option>
-											<option value="04">4월</option>
-											<option value="05">5월</option>
-											<option value="06">6월</option>
-											<option value="07">7월</option>
-											<option value="08">8월</option>
-											<option value="09">9월</option>
-											<option value="10">10월</option>
-											<option value="11">11월</option>
-											<option value="12">12월</option>
-										</select> <input id="date" name="date" maxlength="2" type="text"
-											placeholder="일" autocomplete="off" style="width: 32%">
-									</div>
-									<div id="birthdayComment" class="col-sm-12"></div>
-								</div>
-							</div>
-
-
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊성별</div>
-								<div class="col-sm-12">
-									<div class="radio custom-control">
-										<label><input name="gender" type="radio" checked
-											value="man">남성</label>
-									</div>
-									<div class="radio custom-control">
-										<label><input name="gender" type="radio" value="woman">여성</label>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group" align="left">
-								<div class="col-sm-12">＊이메일</div>
-								<div class="col-sm-12">
-									<input id="email" name="email" type="email"
-										class="form-control" placeholder="이메일" autocomplete="off">
-									<div id="emailComment"></div>
-								</div>
-							</div>
-
-							<div class="form-group" align="left">
-								<div class="col-sm-12">기본 배송지</div>
-								<div class="col-sm-12">
-									<div style="margin-top: 10px; margin-bottom: 10px">
-										<input type="text" id="postalCode" name="postalCode"
-											class="form-control" placeholder="우편번호"
-											style="width: 50%; display: inline;" readonly="readonly">
-										<input type="button" class="form-control"
-											onclick="startDaumPostcode()" value="우편번호 검색"
-											style="width: 45%; display: inline; float: right;">
-									</div>
-									<input type="text" id="roadAddress" name="roadAddress"
-										class="form-control" placeholder="도로명주소" readonly="readonly"
-										style="margin-bottom: 10px"> <input type="text"
-										id="detailAddress" name="detailAddress" class="form-control"
-										placeholder="상세주소" autocomplete="new-password">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-12">
-									<input id="registerBtn" type="submit" value="회원가입"
-										style="border: hidden; margin-top: 20px; font-size: 18px; height: 54px; width: 100%; background-color: green; color: white;">
-								</div>
-							</div>
-							<sec:csrfInput />
-						</form>
-					</div>
-				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-
-			</div>
-		</div>
-	</div>
 </body>
 </html>
