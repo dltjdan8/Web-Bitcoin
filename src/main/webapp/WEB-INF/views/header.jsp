@@ -385,7 +385,7 @@
 		console.log("click4");
 		$.ajax({
 			type : 'post',
-			url : '/user/validate',
+			url : 'user/validate',
 			data : 'id='+id,
 			beforeSend : function(xhr) {
 				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
