@@ -100,7 +100,7 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div class="panel-body" style="margin-top: 20px;">
-						<form id="registerForm" action="/user/regist" method="post">
+						<form id="registerForm" action="user/regist" method="post">
 							<div class="form-group" align="left">
 								<div class="col-sm-12">＊아이디</div>
 								<div class="col-sm-12">
@@ -382,7 +382,7 @@
 		async: false
 	});
 	function getIdValidate(id, callback, error) {
-		console.log("click4");
+		console.log(id);
 		$.ajax({
 			type : 'post',
 			url : 'user/validate',

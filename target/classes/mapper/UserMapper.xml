@@ -10,7 +10,10 @@
 		rid = #{userId}
 	</select>
 	<insert id="regist" parameterType="UserDto">
-		insert into user(rid, rpwd, name, gender, nickname, birthday, postalCode, roadAddress, detailAddress, email, authority)
-		values(#{id},#{pwd},#{name},#{gender},#{nickname},#{birthday},#{postalCode},#{roadAddress}, #{detailAddress},#{email},#{authority});
+		insert into user(rid, rpwd,
+		name, gender, nickname, birthday, postalCode, roadAddress,
+		detailAddress, email, authority)
+		values(#{rid},#{rpwd},#{name},#{gender},#{nickname},#{birthday},#{postalCode},#{roadAddress},
+		#{detailAddress},#{email},#{authority});
 	</insert>
 </mapper>
