@@ -1,11 +1,9 @@
 package com.bit.coin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +19,20 @@ import com.bit.coin.service.UserService;
 public class UserController {
 
 	@Autowired
-	private PasswordEncoder encoder;
+	private BCryptPasswordEncoder encoder;
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/login")
-	public void loginPage(String error, Model model) {
-		if (error != null) {
-			model.addAttribute("msg", error);
-		}
-	}
+//	@PostMapping("/login")
+//	public void loginPage() {
+//		
+//	}
+
+//	@PostMapping("/logout")
+//	public String logoutPage(String error, Model model) {
+//		return "home";
+//	}
 
 	@PostMapping("/regist")
 	public ModelAndView regist(UserDto userDto) {

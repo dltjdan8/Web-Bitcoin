@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"
+	%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -31,14 +31,12 @@
 		<!-- Brand/logo -->
 		<img alt="logo" src="${path}/img/logo.png" href="${path}/" width="50"
 			height="50"> <a class="navbar-brand" href="${path}/">BitCoin</a>
-		<sec:authorize access="isAnonymous()">
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#"
 					data-toggle="modal" data-target="#loginModal">로그인</a></li>
 				<li class="nav-item"><a class="nav-link" href="#"
 					data-toggle="modal" data-target="#registModal">회원가입</a></li>
 			</ul>
-		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
 			<form id="logoutForm" action="/user/logout" method="post">
@@ -65,25 +63,26 @@
 					<h4 class="modal-title">로그인</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="id">User ID:</label> <input type="text"
-							class="form-control" placeholder="Enter ID" id="id">
+				<form id="loginForm" action="${path}/user/login" method="post">
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="id">User ID:</label> <input type="text"
+								class="form-control" placeholder="Enter ID" id="id" name="id">
+						</div>
+						<div class="form-group">
+							<label for="pwd">Password:</label> <input type="password"
+								class="form-control" placeholder="Enter password" id
+								="pwd" name="pwd">
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="pwd">Password:</label> <input type="password"
-							class="form-control" placeholder="Enter password" id="pwd">
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">로그인</button>
+						<button type="reset" class="btn btn-danger">초기화</button>
 					</div>
-				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" data-dismiss="modal">로그인</button>
-					<button type="reset" class="btn btn-danger" data-dismiss="modal">초기화</button>
-				</div>
-
+				</form>
 			</div>
 		</div>
 	</div>
@@ -237,7 +236,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
 	function startDaumPostcode() {
 		new daum.Postcode({
@@ -248,7 +247,7 @@
 		}).open();
 	}
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
 	let submitCheck = 0;
 
 	let pwdCheck = 0;
@@ -378,9 +377,7 @@
 	});
 	var csrfHeaderName = $("meta[name='csrfHeaderName']").attr("content");
 	var csrfTokenValue = $("meta[name='csrfTokenValue']").attr("content");
-	$.ajaxSetup({
-		async: false
-	});
+
 	function getIdValidate(id, callback, error) {
 		console.log(id);
 		$.ajax({
