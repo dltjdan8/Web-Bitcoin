@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"
-	%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -31,20 +31,25 @@
 		<!-- Brand/logo -->
 		<img alt="logo" src="${path}/img/logo.png" href="${path}/" width="50"
 			height="50"> <a class="navbar-brand" href="${path}/">BitCoin</a>
+
+		<sec:authorize access="!isAuthenticated()">
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#"
 					data-toggle="modal" data-target="#loginModal">로그인</a></li>
 				<li class="nav-item"><a class="nav-link" href="#"
 					data-toggle="modal" data-target="#registModal">회원가입</a></li>
 			</ul>
-
+		</sec:authorize>
 		<sec:authorize access="isAuthenticated()">
-			<form id="logoutForm" action="/user/logout" method="post">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="#"
+					id="logoutBtn">로그아웃</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="${path}/user/myPage">내정보</a></li>
+			</ul>
+			<form id="logoutForm" action="${path}/logout" method="post">
 				<sec:csrfInput />
 			</form>
-			<span id="logoutBtn" class="top-bar-menu-item"
-				style="cursor: pointer;">로그아웃</span>
-			<span class="top-bar-menu-item"><a href="/user/myPage">내정보</a></span>
 			<script>
 				$("#logoutBtn").on("click", function() {
 					$("#logoutForm").submit();
@@ -63,7 +68,7 @@
 					<h4 class="modal-title">로그인</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-				<form id="loginForm" action="${path}/user/login" method="post">
+				<form id="loginForm" action="${path}/login" method="post">
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-group">
@@ -72,8 +77,8 @@
 						</div>
 						<div class="form-group">
 							<label for="pwd">Password:</label> <input type="password"
-								class="form-control" placeholder="Enter password" id
-								="pwd" name="pwd">
+								class="form-control" placeholder="Enter password" id="pwd"
+								name="pwd">
 						</div>
 					</div>
 
@@ -82,6 +87,7 @@
 						<button type="submit" class="btn btn-primary">로그인</button>
 						<button type="reset" class="btn btn-danger">초기화</button>
 					</div>
+					<sec:csrfInput />
 				</form>
 			</div>
 		</div>
@@ -352,6 +358,31 @@
 		}
 	});
 	
+	var csrfHeaderName = $("meta[name='csrfHeaderName']").attr("content");
+	var csrfTokenValue = $("meta[name='csrfTokenValue']").attr("content");
+
+	function getIdValidate(id, callback, error) {
+		console.log(id);
+		$.ajax({
+			url : 'user/validate',
+			type : 'post',
+			data : 'id='+id,
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
+			success : function(result, status, xhr) {
+				if(callback){
+					console.log(result);
+					callback(result);
+				}
+			},
+			error : function(xhr, status, err) {
+				if(error){
+					error(err);
+				}
+			}
+		});
+	}
 	// 중복체크 
 	// db로 부터 ajax통신으로 아이디 중복체크 결과를 받아온다.
 	// 성공시 idCheck를 1로 변경
@@ -375,30 +406,7 @@
 		});
 		
 	});
-	var csrfHeaderName = $("meta[name='csrfHeaderName']").attr("content");
-	var csrfTokenValue = $("meta[name='csrfTokenValue']").attr("content");
-
-	function getIdValidate(id, callback, error) {
-		console.log(id);
-		$.ajax({
-			type : 'post',
-			url : 'user/validate',
-			data : 'id='+id,
-			beforeSend : function(xhr) {
-				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-			},
-			success : function(result, status, xhr) {
-				if(callback){
-					callback(result);
-				}
-			},
-			error : function(xhr, status, err) {
-				if(error){
-					error(err);
-				}
-			}
-		});
-	}
+	
 	// id를 입력 및 중복체크 여부 확인
 	$("#rid").on("change keyup paste input", function() {
 		idCheck = 0;

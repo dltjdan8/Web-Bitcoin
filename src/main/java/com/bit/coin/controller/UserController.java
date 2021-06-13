@@ -24,16 +24,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@PostMapping("/login")
-//	public void loginPage() {
-//		
-//	}
-
-//	@PostMapping("/logout")
-//	public String logoutPage(String error, Model model) {
-//		return "home";
-//	}
-
 	@PostMapping("/regist")
 	public ModelAndView regist(UserDto userDto) {
 		userDto.setRpwd(encoder.encode(userDto.getRpwd()));
@@ -47,9 +37,10 @@ public class UserController {
 		return mav;
 	}
 
-	@ResponseBody
 	@PostMapping("/validate")
+	@ResponseBody
 	public String validate(@RequestParam("id") String userId) {
+		System.out.println("validate :" + userId);
 		int result = userService.validate(userId);
 		if (result == 1) {
 			return "no";
