@@ -24,5 +24,5 @@ public class UserDto {
 	private String birthday;
 	private Date regDate;
 
-	private List<AuthVO> authList;
+	private String authority;
 }

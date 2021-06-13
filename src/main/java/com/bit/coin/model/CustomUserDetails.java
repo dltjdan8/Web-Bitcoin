@@ -1,7 +1,8 @@
 package com.bit.coin.model;
 
 import java.util.Date;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,9 +26,21 @@ public class CustomUserDetails extends User {
 	private String birthday;
 	private Date regDate;
 
+	private static Set<SimpleGrantedAuthority> makeSet(String a) {
+		Set<SimpleGrantedAuthority> set = new HashSet<>();
+		if (a.length() > 9) {
+			String[] d = a.split(",");
+			for (String c : d) {
+				set.add(new SimpleGrantedAuthority(c));
+			}
+		} else {
+			set.add(new SimpleGrantedAuthority(a));
+		}
+		return set;
+	}
+
 	public CustomUserDetails(UserDto user) {
-		super(user.getRid(), user.getRpwd(), user.getAuthList().stream()
-				.map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
+		super(user.getRid(), user.getRpwd(), makeSet(user.getAuthority()));
 		this.name = user.getName();
 		this.gender = user.getGender();
 		this.nickname = user.getNickname();

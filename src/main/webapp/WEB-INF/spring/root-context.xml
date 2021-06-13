@@ -12,7 +12,7 @@
 
 	<!-- web components 스캔 service나 model -->
 	<context:component-scan
-		base-package="com.bit.coin.service, com.bit.coin.model" />
+		base-package="com.bit.coin.service, com.bit.coin.model, com.bit.coin.config" />
 
 	<!-- MyBatis-Spring datasource 설정 -->
 	<bean id="dataSource"
