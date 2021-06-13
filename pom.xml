@@ -223,7 +223,7 @@
 			<artifactId>spring-websocket</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+				
 	</dependencies>
 	<build>
 		<plugins>

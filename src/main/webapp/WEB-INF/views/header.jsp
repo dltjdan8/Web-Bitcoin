@@ -383,7 +383,7 @@
 		$.ajax({
 			type : 'post',
 			url : 'user/validate',
-			data : "id="+id,
+			data : 'id='+id,
 			beforeSend : function(xhr) {
 				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
 			},
