@@ -36,12 +36,12 @@
 		<constructor-arg ref="sqlSessionFactoryBean"></constructor-arg>
 	</bean>
 
-	<!-- 자동 트랜잭션 관리 객체 등록 @Transactional 사용하기위해 -->
+	<!-- 자동 트랜잭션 관리 객체 어노테이션 객체 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<!-- 자동 트랜잭션 관리 객체 어노테이션 객체 -->
+	<!-- 자동 트랜잭션 관리 객체 등록 @Transactional 사용하기위해 -->
 	<tx:annotation-driven
 		transaction-manager="transactionManager" />
 </beans>
