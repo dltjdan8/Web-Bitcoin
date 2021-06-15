@@ -14,12 +14,6 @@ public class UserServiceImpl implements UserService {
 	private SqlSession session;
 
 	@Override
-	public int login() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int validate(String userId) {
 		// TODO Auto-generated method stub
 		return session.getMapper(UserMapper.class).validate(userId);
@@ -35,12 +29,6 @@ public class UserServiceImpl implements UserService {
 	public int delete() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public UserDto getUserById() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

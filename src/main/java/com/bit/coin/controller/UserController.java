@@ -50,7 +50,7 @@ public class UserController {
 
 	@PutMapping("/modify")
 	public ModelAndView modify() {
-		int result = userService.login();
+		int result = userService.modify();
 		ModelAndView mav = new ModelAndView("index");
 		mav.addObject("msg", result);
 		return mav;
@@ -58,7 +58,7 @@ public class UserController {
 
 	@DeleteMapping("/delete")
 	public ModelAndView delete() {
-		int result = userService.login();
+		int result = userService.delete();
 		ModelAndView mav = new ModelAndView("index");
 		mav.addObject("msg", result);
 		return mav;
