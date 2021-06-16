@@ -20,6 +20,9 @@ public interface ApiService {
 
 	public Map<String, Object> getBtci() throws JsonMappingException, JsonProcessingException;
 
-	public Map<String, Object> getOrderBook(String order_currency, String payment_currency) throws JsonMappingException, IllegalArgumentException, JsonProcessingException;
+	public Map<String, Object> getOrderBook(String order_currency, String payment_currency)
+			throws JsonMappingException, IllegalArgumentException, JsonProcessingException;
+
+	public Map<String, Object> getCandleStick(String order_currency, String payment_currency, String chart_intervals) throws JsonMappingException, IllegalArgumentException, JsonProcessingException;
 
 }
