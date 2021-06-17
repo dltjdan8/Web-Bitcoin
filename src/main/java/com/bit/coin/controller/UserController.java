@@ -1,11 +1,9 @@
 package com.bit.coin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +19,10 @@ import com.bit.coin.service.UserService;
 public class UserController {
 
 	@Autowired
-	private PasswordEncoder encoder;
+	private BCryptPasswordEncoder encoder;
 
 	@Autowired
 	private UserService userService;
-
-	@GetMapping("/login")
-	public void loginPage(String error, Model model) {
-		if (error != null) {
-			model.addAttribute("msg", error);
-		}
-	}
 
 	@PostMapping("/regist")
 	public ModelAndView regist(UserDto userDto) {
@@ -46,9 +37,10 @@ public class UserController {
 		return mav;
 	}
 
-	@ResponseBody
 	@PostMapping("/validate")
+	@ResponseBody
 	public String validate(@RequestParam("id") String userId) {
+		System.out.println("validate :" + userId);
 		int result = userService.validate(userId);
 		if (result == 1) {
 			return "no";
@@ -58,7 +50,7 @@ public class UserController {
 
 	@PutMapping("/modify")
 	public ModelAndView modify() {
-		int result = userService.login();
+		int result = userService.modify();
 		ModelAndView mav = new ModelAndView("index");
 		mav.addObject("msg", result);
 		return mav;
@@ -66,7 +58,7 @@ public class UserController {
 
 	@DeleteMapping("/delete")
 	public ModelAndView delete() {
-		int result = userService.login();
+		int result = userService.delete();
 		ModelAndView mav = new ModelAndView("index");
 		mav.addObject("msg", result);
 		return mav;
