@@ -1,4 +1,4 @@
-package com.bit.coin.security;
+package com.bit.coin.handler;
 
 import java.io.IOException;
 import java.util.Collection;

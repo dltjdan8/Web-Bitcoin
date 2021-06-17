@@ -36,10 +36,12 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String rawMessage = message.getPayload(); // json형태의 메세지
 		msgObj = jsonMapper.readValue(rawMessage, ChatDto.class); // json형식의 문자를 특정 클래스로 캐스팅
+		log.info(msgObj);
 		// 채팅 메세지 db에 저장
 		chatService.addChat(msgObj);
 		for(WebSocketSession sess : sessionList) {
-			sess.sendMessage(new TextMessage(msgObj.getNickname() + "|" + message.getPayload()));
+			sess.sendMessage(new TextMessage(msgObj.getRid() + "|" + msgObj.getNickname() + "|" +
+					msgObj.getContent()));
 		}
 	}
 	// 소켓 연결이 끊긴 후 작동

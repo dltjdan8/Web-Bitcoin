@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,5 +68,27 @@ public class ApiController {
 		Map<String, Object> map = apiService.getOrderBook(order_currency, payment_currency);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
+
+	// 시간 및 구간 별 빗썸 거래소 가상자산 가격, 거래량 정보를 제공합니다. 날짜별 오름차순
+	@GetMapping("/candlestick")
+	public ResponseEntity<Map<String, Object>> getCandleStick(
+			@RequestParam(value = "order_currency") String order_currency,
+			@RequestParam(value = "payment_currency") String payment_currency,
+			@RequestParam(value = "chart_intervals") String chart_intervals)
+			throws JsonMappingException, JsonProcessingException {
+		Map<String, Object> map = apiService.getCandleStick(order_currency, payment_currency, chart_intervals);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	// 현재가, 호가, 체결에 대한 정보를 수신할 수 있습니다.
+//	@GetMapping("/connect")
+//	public ResponseEntity<String> getConnect(
+//			@RequestParam(value = "type") String type,
+//			@RequestParam(value = "symbols") String[] symbols,
+//			@RequestParam(value = "tickTypes" ,required = false) String[] tickTypes)
+//			throws JsonMappingException, JsonProcessingException {
+//		Map<String, Object> map = apiService.getCandleStick(order_currency, payment_currency, chart_intervals);
+//		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+//	}
 
 }

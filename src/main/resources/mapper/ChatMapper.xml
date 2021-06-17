@@ -3,6 +3,9 @@
 <mapper namespace="com.bit.coin.mapper.ChatMapper">
 	<insert id="insert">
 		insert into chat(rid, nickname, content)
-		values(#{rid},#{nickname},#{content});
+		values(#{rid},#{nickname},#{content})
 	</insert>
+	<select id="getAllChatList" resultType="com.bit.coin.model.ChatDto">
+		select * from chat
+	</select>
 </mapper>
