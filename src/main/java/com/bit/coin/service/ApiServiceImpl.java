@@ -1,7 +1,7 @@
 package com.bit.coin.service;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,6 +42,7 @@ public class ApiServiceImpl implements ApiService {
 	private final String BTCI_URL = "https://api.bithumb.com/public/btci";
 	private final String BOOK_URL = "https://api.bithumb.com/public/orderbook/";
 	private final String STICK_URL = "https://api.bithumb.com/public/candlestick/";
+	private final String EVENT_URL = "https://www.bithumb.com/";
 
 	@Override
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -80,6 +85,7 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	@Override
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public String[] getStatus(String order_currency) throws JsonMappingException, JsonProcessingException {
 		RestTemplate template = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -97,6 +103,7 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	@Override
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public Map<String, Object> getBtci() throws JsonMappingException, JsonProcessingException {
 		RestTemplate template = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -115,6 +122,7 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	@Override
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public Map<String, Object> getOrderBook(String order_currency, String payment_currency)
 			throws JsonMappingException, IllegalArgumentException, JsonProcessingException {
 		RestTemplate template = new RestTemplate();
@@ -136,6 +144,7 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	@Override
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public Map<String, Object> getCandleStick(String order_currency, String payment_currency, String chart_intervals)
 			throws JsonMappingException, IllegalArgumentException, JsonProcessingException {
 		RestTemplate template = new RestTemplate();
@@ -167,6 +176,19 @@ public class ApiServiceImpl implements ApiService {
 			data[i][0] = date.toString();
 		}
 		map.put("data", data);
+		return map;
+	}
+
+	@Override
+	public Map<String, String> getCoinEvent() throws IOException {
+		// TODO Auto-generated method stub
+		Document doc = Jsoup.connect(EVENT_URL).get();
+		// css선택자를 이용해 elements객체를 가져와서
+		Elements contents = doc.select("tbody.coin_list > tr");
+		Map<String, String> map = new HashMap<>();
+		for (Element element : contents) {
+			map.put(element.attr("data-coin"), element.select("a > span").first().attr("data-sorting"));
+		}
 		return map;
 	}
 

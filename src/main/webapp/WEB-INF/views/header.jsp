@@ -493,7 +493,11 @@
 	    	$("#emailComment").html("");
 	    }
 	});
-	
+	// request.setAttribute("msg", "id 또는 pass를 확인하세요") 형태로 attribute를 넘겨주면 alert을 확인할 수 있다.
+	let msg = "${msg}";
+	if (msg) {
+		alert(msg);
+	}
 </script>
 </body>
 </html>
