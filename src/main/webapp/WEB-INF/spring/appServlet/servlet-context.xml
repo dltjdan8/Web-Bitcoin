@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
@@ -18,7 +20,7 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/img/**" location="/resources/img/"/>
+	<resources mapping="/img/**" location="/resources/img/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
@@ -30,10 +32,31 @@
 
 	<context:component-scan
 		base-package="com.bit.coin.controller" />
-	<beans:bean id="replyEchoHandler" class="com.bit.coin.handler.ReplyEchoHandler"></beans:bean>
+	<beans:bean id="replyEchoHandler"
+		class="com.bit.coin.handler.ReplyEchoHandler"></beans:bean>
 	<!-- 웹소켓 설정 -->
 	<websocket:handlers>
-		<websocket:mapping handler="replyEchoHandler" path="/replyEcho"/>
+		<websocket:mapping handler="replyEchoHandler"
+			path="/replyEcho" />
 	</websocket:handlers>
+	<!-- RestController 데이터 바인딩 설정 -->
+	<annotation-driven>
+		<message-converters>
+			<beans:bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></beans:bean>
+		</message-converters>
+	</annotation-driven>
 
+	<!-- declare Redis Cache Manager -->
+	<beans:bean id="cacheManager"
+		class="org.springframework.data.redis.cache.RedisCacheManager"
+		c:redis-operations-ref='redisTemplate'>
+		<beans:property name="expires">
+			<beans:map>
+				<beans:entry key="sessionData" value="7200"></beans:entry>
+				<beans:entry key="portalData" value="7200"></beans:entry>
+				<beans:entry key="referenceData" value="86400"></beans:entry>
+			</beans:map>
+		</beans:property>
+	</beans:bean>
 </beans:beans>

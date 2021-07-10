@@ -13,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -180,6 +181,7 @@ public class ApiServiceImpl implements ApiService {
 	}
 
 	@Override
+//	@Cacheable(value = "coinCache")
 	public Map<String, String> getCoinEvent() throws IOException {
 		// TODO Auto-generated method stub
 		Document doc = Jsoup.connect(EVENT_URL).get();
