@@ -50,5 +50,7 @@
 		transaction-manager="transactionManager" />
 	<!-- 스케줄링을 위한 설정 -->
 	<task:annotation-driven />
+
+
 </beans>
 
